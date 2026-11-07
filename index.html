@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tina's Space | 個人數位作品集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090a0f;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #06b6d4;
+            --accent-pink: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 動態光暈背景 */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(110px);
+            opacity: 0.35;
+            animation: float 16s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-primary);
+            top: -150px;
+            left: -100px;
+        }
+
+        .blob-2 {
+            width: 450px;
+            height: 450px;
+            background: var(--accent-secondary);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--accent-pink);
+            top: 40%;
+            left: 55%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 40px) scale(1.12); }
+        }
+
+        /* 導覽列 */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            padding: 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: var(--accent-secondary);
+            -webkit-text-fill-color: var(--accent-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero 區塊 */
+        .hero {
+            min-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            color: #c4b5fd;
+            margin-bottom: 24px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.6rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 620px;
+            margin-bottom: 36px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.45);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(139, 92, 246, 0.65);
+        }
+
+        .btn-outline {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.09);
+            transform: translateY(-2px);
+        }
+
+        /* 通用區塊標題 */
+        section {
+            padding: 90px 0;
+        }
+
+        .section-header {
+            margin-bottom: 48px;
+        }
+
+        .section-tag {
+            color: var(--accent-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        /* Bento Grid 關於我 */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .bento-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .bento-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .bento-card p {
+            color: var(--text-muted);
+            font-size: 0.96rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+        }
+
+        /* 專案卡片 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.45);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+        }
+
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .project-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.94rem;
+            margin-bottom: 24px;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--card-border);
+            padding-top: 16px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        /* 聯絡區塊 */
+        .contact-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.14), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 28px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .contact-box h2 {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+        }
+
+        .contact-box p {
+            color: var(--text-muted);
+            max-width: 520px;
+            margin: 0 auto 32px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .span-2 {
+                grid-column: span 1;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav>
+        <div class="logo">TINA<span>.DEV</span></div>
+        <ul class="nav-links">
+            <li><a href="#about">關於我</a></li>
+            <li><a href="#projects">精選作品</a></li>
+            <li><a href="#contact">聯絡方式</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                <span>Powered by GitHub Pages & Antigravity AI</span>
+            </div>
+            <h1>
+                嗨，我是 <span class="gradient-text">Tina</span> 👋<br>
+                用程式碼打造有趣的靈感。
+            </h1>
+            <p>
+                熱愛探索 AI 應用、前端互動設計與自動化工作流。這裡是我的個人數位秘密基地，記錄各種實驗專案、突發奇想與學習筆記。
+            </p>
+            <div class="cta-group">
+                <a href="#projects" class="btn btn-primary">探索作品集 →</a>
+                <a href="https://github.com/ttttiiiinnnnaaaa-bit" target="_blank" rel="noopener" class="btn btn-outline">GitHub 主頁</a>
+            </div>
+        </section>
+
+        <!-- About Bento -->
+        <section id="about">
+            <div class="section-header">
+                <span class="section-tag">About Me</span>
+                <h2 class="section-title">關於我與日常技能樹</h2>
+            </div>
+
+            <div class="bento-grid">
+                <div class="bento-card span-2">
+                    <h3>🚀 喜歡把想法快速變成現實</h3>
+                    <p>
+                        從零開始打造產品總是令人興奮！平時喜歡研究最新的 AI 工具（例如 MCP 串接、自動化 Agent），把繁瑣的事情交給機器人，把時間留給創意、咖啡與生活。
+                    </p>
+                    <div class="skill-tags">
+                        <span class="tag">🤖 AI Agent & MCP</span>
+                        <span class="tag">⚡ Web Development</span>
+                        <span class="tag">🎨 UI / UX Design</span>
+                        <span class="tag">🐍 Python</span>
+                        <span class="tag">✨ Vibe Coding</span>
+                    </div>
+                </div>
+
+                <div class="bento-card">
+                    <h3>☕ 能量來源</h3>
+                    <p>
+                        冰美式咖啡、深夜的 Lo-Fi 音樂，以及看到程式一次編譯通過的瞬間。
+                    </p>
+                </div>
+
+                <div class="bento-card">
+                    <h3>📍 目前座標</h3>
+                    <p>
+                        Taiwan 🇹🇼<br>
+                        隨時準備好迎接好玩的跨界合作與 Side Projects。
+                    </p>
+                </div>
+
+                <div class="bento-card span-2">
+                    <h3>💡 近期關注主題</h3>
+                    <p>
+                        正在研究如何透過 GitHub MCP 與 AI 協作，全自動完成從「靈感發想 → 撰寫程式碼 → 自動部署上線」的極速開發流程（沒錯，這個網站就是這樣誕生的！）。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <div class="section-header">
+                <span class="section-tag">Featured Works</span>
+                <h2 class="section-title">實驗室作品集</h2>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div>
+                        <div class="project-icon">🌌</div>
+                        <h3>AI 自動化個人網站</h3>
+                        <p>結合 Antigravity 與 GitHub 雲端部署的玻璃擬態（Glassmorphism）個人網站，支援RWD響應式排版與流體光暈動畫。</p>
+                    </div>
+                    <div class="project-meta">
+                        <span>HTML5 / CSS3 / GitHub Pages</span>
+                        <span>2026</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div>
+                        <div class="project-icon">🤖</div>
+                        <h3>智慧工作流小幫手</h3>
+                        <p>串接 Model Context Protocol (MCP) 的全能數位助理，能自動管理儲存庫、整理每日靈感筆記與發佈網頁。</p>
+                    </div>
+                    <div class="project-meta">
+                        <span>MCP / Automation</span>
+                        <span>進行中</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div>
+                        <div class="project-icon">🎧</div>
+                        <h3>Midnight Vibe 音樂盒</h3>
+                        <p>專為專注工作打造的極簡白噪音與環境音效混音器，支援番茄鐘倒數計時與自訂背景主題。</p>
+                    </div>
+                    <div class="project-meta">
+                        <span>Web Audio API</span>
+                        <span>概念專案</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact">
+            <div class="contact-box">
+                <h2>有任何有趣的想法嗎？</h2>
+                <p>歡迎隨時到我的 GitHub 逛逛，或者一起交流 AI 與網頁開發的新玩具！</p>
+                <a href="https://github.com/ttttiiiinnnnaaaa-bit" target="_blank" rel="noopener" class="btn btn-primary">前往 GitHub 與我交流 ✨</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 Tina (ttttiiiinnnnaaaa-bit). Built with ❤️ & Antigravity AI.</p>
+    </footer>
+
+</body>
+</html>
